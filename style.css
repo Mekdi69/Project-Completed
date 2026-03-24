@@ -38,11 +38,12 @@ Fonts:
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
-  padding: 12px;
+  padding: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   background:
     radial-gradient(circle at top, rgba(255, 201, 7, 0.22), transparent 32%),
     linear-gradient(160deg, #fffdf3 0%, #e9f6ff 45%, #f6fff8 100%);
@@ -578,6 +579,10 @@ h1 img {
   border-radius: 8px;
 }
 
+.progress-bar {
+  height: 100%;
+}
+
 h1,
 h2,
 p,
@@ -628,8 +633,8 @@ p,
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   /* Ensure the wrapper is properly centered */
 }
 
@@ -743,9 +748,18 @@ p,
   text-align: center;
   margin-top: auto;
   padding: 10px 0;
+  display: block;
   background-color: transparent;
   position: relative;
   z-index: 10;
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
+  padding: 10px 0;
+  display: block;
 }
 
 .footer-content {
