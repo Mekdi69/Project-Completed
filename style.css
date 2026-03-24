@@ -424,22 +424,30 @@ h1 img {
 }
 
 .milestone-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   background-color: var(--cw-yellow);
   color: var(--cw-ink);
-  padding: 16px 32px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
   text-align: center;
   box-shadow: 0 10px 30px rgba(255, 201, 7, 0.4);
   opacity: 0;
   pointer-events: none;
-  z-index: 1000;
+  margin-top: 15px;
+  display: none;
+  z-index: 5;
   animation: milestoneShow 0.3s ease-out forwards;
+}
+
+#milestoneMessage {
+  margin-top: 15px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+  z-index: 5;
 }
 
 .milestone-popup.show {
@@ -449,11 +457,11 @@ h1 img {
 @keyframes milestoneShow {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
+    transform: scale(0.8);
   }
   100% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 

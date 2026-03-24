@@ -115,7 +115,7 @@ function selectDifficulty(selectedDifficulty) {
 }
 
 function displayMilestone(message) {
-  const popup = document.getElementById('milestone-popup');
+  const popup = document.getElementById('milestoneMessage') || document.getElementById('milestone-popup');
   if (!popup) return;
 
   // Remove 'show' class if present to reset animation
@@ -125,6 +125,7 @@ function displayMilestone(message) {
   popup.offsetHeight;
 
   popup.textContent = message;
+  popup.style.display = 'block';
   popup.setAttribute('aria-hidden', 'false');
   popup.classList.add('show');
 
@@ -132,6 +133,7 @@ function displayMilestone(message) {
   setTimeout(() => {
     popup.classList.remove('show');
     popup.setAttribute('aria-hidden', 'true');
+    popup.style.display = 'none';
   }, 2300);
 }
 
