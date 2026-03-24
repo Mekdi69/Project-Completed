@@ -1,0 +1,541 @@
+/* Charity: water Brand Colors & Fonts
+
+Primary Colors:
+- Yellow:     #FFC907
+- Blue:       #2E9DF7
+
+Secondary Colors:
+- Light Blue: #8BD1CB
+- Green:      #4FCB53
+- Orange:     #FF902A
+- Red:        #F5402C
+- Dark Green: #159A48
+- Pink:       #F16061
+
+Fonts:
+- Proxima Nova
+- Avenir
+
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --cw-yellow: #FFC300;
+  --cw-yellow-soft: #ffe082;
+  --cw-blue: #2E9DF7;
+  --cw-blue-deep: #1f7fd0;
+  --cw-light-blue: #8BD1CB;
+  --cw-green: #159A48;
+  --cw-red: #F5402C;
+  --cw-ink: #1f2a37;
+  --cw-paper: #ffffff;
+  --cw-cloud: #f2f9ff;
+}
+
+body {
+  font-family: Avenir, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 30px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at top, rgba(255, 201, 7, 0.22), transparent 32%),
+    linear-gradient(160deg, #fffdf3 0%, #e9f6ff 45%, #f6fff8 100%);
+  color: var(--cw-ink);
+}
+
+.container {
+  width: min(100%, 750px);
+  max-width: 750px;
+  margin: 0 auto;
+  background-color: var(--cw-paper);
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px solid rgba(46, 157, 247, 0.1);
+  box-shadow: 0 18px 40px rgba(46, 157, 247, 0.14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.stage-screen {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: stageFadeIn 0.45s ease both;
+}
+
+.win-screen {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  justify-content: center;
+}
+
+.brand-logo {
+  width: min(240px, 70vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 18px;
+}
+
+.stage-screen.is-hidden {
+  display: none;
+}
+
+.confetti-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -12%;
+  width: 12px;
+  height: 20px;
+  border-radius: 4px;
+  opacity: 0.9;
+  animation: confettiFall linear forwards;
+}
+
+h1 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 0 16px;
+  color: var(--cw-green);
+  letter-spacing: 0.02em;
+}
+
+h1 img {
+  height: 50px;
+  margin-right: 15px;
+  display: block;
+}
+
+.game-instructions {
+  font-size: 18px;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--cw-ink);
+  max-width: 32rem;
+}
+
+.water-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  width: 100%;
+  text-align: center;
+}
+
+.water-drop-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.water-drop-button:focus-visible {
+  outline: 3px solid var(--cw-blue);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.water-drop-image {
+  width: 190px;
+  height: 190px;
+  object-fit: contain;
+  display: block;
+  transform-origin: center;
+  transition: transform 0.22s ease, filter 0.22s ease;
+  filter: drop-shadow(0 10px 18px rgba(46, 157, 247, 0.18));
+  animation: waterDropIdle 2.8s ease-in-out infinite;
+}
+
+.water-drop-button:hover .water-drop-image {
+  transform: translateY(-4px) scale(1.08) rotate(-4deg);
+  filter: drop-shadow(0 14px 24px rgba(255, 195, 0, 0.3));
+}
+
+.water-drop-button:active .water-drop-image {
+  animation: waterDropTap 0.25s ease;
+  transform: scale(0.92) rotate(4deg);
+}
+
+#water-counter-text {
+  margin: 8px 0 0;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: var(--cw-green);
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 30px;
+  background-color: var(--cw-cloud);
+  padding: 15px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(46, 157, 247, 0.12);
+}
+
+.stats p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--cw-ink);
+}
+
+.progress-section {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 24px;
+}
+
+.game-message {
+  min-height: 28px;
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.game-message.win {
+  color: var(--cw-green);
+}
+
+.game-message.loss {
+  color: var(--cw-red);
+}
+
+.win-screen-message {
+  max-width: 30rem;
+  margin-bottom: 28px;
+}
+
+.secondary-button {
+  background-color: transparent;
+  color: var(--cw-blue-deep);
+  border: 2px solid rgba(46, 157, 247, 0.28);
+  padding: 10px 22px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 999px;
+  cursor: pointer;
+  margin: 0 auto 20px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.secondary-button:hover {
+  background-color: rgba(46, 157, 247, 0.08);
+  border-color: rgba(46, 157, 247, 0.48);
+  transform: translateY(-1px);
+}
+
+.secondary-button:focus-visible {
+  outline: 3px solid var(--cw-yellow);
+  outline-offset: 4px;
+}
+
+.stage-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 24px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff7d7 0%, #f2f9ff 100%);
+  border: 1px solid rgba(46, 157, 247, 0.18);
+  box-shadow: 0 10px 24px rgba(46, 157, 247, 0.12);
+}
+
+.stage-card-label {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--cw-blue-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stage-card-value {
+  margin: 0;
+  font-size: 52px;
+  font-weight: bold;
+  color: var(--cw-green);
+}
+
+.stage-choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 22px;
+}
+
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--cw-ink);
+}
+
+.progress-track {
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(180deg, #fff7d7 0%, #ffefb8 100%);
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--cw-yellow) 0%, #ffd84d 55%, var(--cw-yellow-soft) 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(255, 201, 7, 0.45);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+}
+
+.grid-cell {
+  background: linear-gradient(180deg, #f3fbff 0%, #dff2ff 100%);
+  border-radius: 12px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(46, 157, 247, 0.15);
+}
+
+.grid-cell:hover {
+  transform: translateY(-2px);
+}
+
+.water-can-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  /* Ensure the wrapper is properly centered */
+}
+
+.water-can {
+  width: 100%;
+  height: 100%;
+  background-image: url('img/water-can.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  border-radius: 50%;
+  animation: popUp 0.5s cubic-bezier(0.17, 0.67, 0.34, 2);
+  transform-origin: center; /* Ensure scaling happens from the center */
+}
+
+@keyframes popUp {
+  0% {
+    transform: scale(0.5); /* Start scaling from the center */
+  }
+  100% {
+    transform: scale(1); /* End scaling at full size */
+  }
+}
+
+@keyframes stageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes waterDropIdle {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-2deg);
+  }
+}
+
+@keyframes waterDropTap {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(0.88) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, -10%, 0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 120vh, 0) rotate(540deg);
+    opacity: 0;
+  }
+}
+
+
+#start-game {
+  background-color: var(--cw-blue);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 999px;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto 0;
+  transition: background-color 0.2s, transform 0.2s ease;
+}
+
+#start-game:hover {
+  background-color: var(--cw-blue-deep);
+  transform: translateY(-1px);
+}
+
+#start-game:focus-visible {
+  outline: 3px solid var(--cw-yellow);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 14px;
+  }
+
+  .container {
+    margin: 16px auto;
+    padding: 22px 16px 26px;
+    border-radius: 20px;
+  }
+
+  .brand-logo {
+    width: min(210px, 76vw);
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .game-instructions {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .water-drop-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .water-drop-button:hover .water-drop-image {
+    transform: translateY(-2px) scale(1.04) rotate(-2deg);
+  }
+
+  #water-counter-text {
+    font-size: 18px;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+
+  .progress-section,
+  .game-grid,
+  .stats {
+    max-width: 100%;
+  }
+
+  .game-grid {
+    gap: 10px;
+  }
+
+  .grid-cell:hover {
+    transform: none;
+  }
+
+  #start-game {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .secondary-button {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .stage-choice-list {
+    max-width: 320px;
+  }
+
+  .stage-card-value {
+    font-size: 42px;
+  }
+
+  .win-screen {
+    min-height: 360px;
+  }
+}
