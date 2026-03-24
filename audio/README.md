@@ -1,32 +1,29 @@
 # Audio Files for Water Quest
 
-This directory contains placeholder audio files for the Water Quest game.
+This directory contains game sound effects downloaded from Mixkit (free sound library).
 
-## Files Required
+## Files in Use
 
-1. **water-collect.mp3** - Sound effect played when water is collected
-   - Recommended duration: 0.2-0.5 seconds
-   - Best format: MP3, 128-256kbps
-   - Example: quick "pop" or "water splash" sound
+1. `water-collect.mp3` - Played when a water item is collected
+2. `miss-sound.mp3` - Played when inactivity causes a score penalty (missed collection window)
+3. `button-click.mp3` - Played when UI buttons are clicked
+4. `win-sound.mp3` - Played when the final win screen appears
 
-2. **win-sound.mp3** - Sound effect played when the player completes all stages
-   - Recommended duration: 1-2 seconds
-   - Best format: MP3, 128-256kbps
-   - Example: celebratory "victory" or "fanfare" sound
+## Source Library
 
-## How to Replace Placeholder Files
+- Library: Mixkit free sound effects
+- Site: https://mixkit.co/free-sound-effects/
 
-1. Get or create your own audio files in MP3 format
-2. Replace the existing placeholder files with your audio files
-3. Make sure the filenames match exactly:
-   - `water-collect.mp3`
-   - `win-sound.mp3`
-4. Refresh your browser to hear the new sounds
+## Direct Clip URLs Used
 
-## Sound Management
+- Water collect: https://assets.mixkit.co/active_storage/sfx/2364/2364-preview.mp3
+- Miss: https://assets.mixkit.co/active_storage/sfx/2042/2042-preview.mp3
+- Button click: https://assets.mixkit.co/active_storage/sfx/275/275-preview.mp3
+- Win: https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3
 
-The game includes sound management features:
-- **Collect sounds** have a 100ms cooldown to prevent overlapping
-- **Win sound** plays only once per game completion
-- All sounds gracefully fail if audio playback is not available
-- Works in muted browser tabs (no noise/warnings)
+## Sound Behavior Notes
+
+- Collect sounds have a short cooldown to avoid overlap spam.
+- Button clicks have a short cooldown to prevent duplicate rapid-fire sounds.
+- Win sound plays once per completion and resets when the game resets.
+- Playback fails silently when browser audio cannot autoplay.

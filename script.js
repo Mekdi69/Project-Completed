@@ -48,32 +48,44 @@ let milestonesDisplayed = []; // Tracks which milestones have been shown
 const soundManager = {
   lastCollectSoundTime: 0,
   collectSoundCooldown: 100, // Minimum milliseconds between collect sounds
+  lastButtonSoundTime: 0,
+  buttonSoundCooldown: 80,
   winSoundPlayed: false,
+
+  playSoundById(audioId) {
+    const audio = document.getElementById(audioId);
+    if (!audio) return;
+
+    audio.currentTime = 0;
+    audio.play().catch(() => {
+      // Silent fail if audio can't play (common on muted browsers)
+    });
+  },
 
   playCollectSound() {
     const now = Date.now();
     if (now - this.lastCollectSoundTime > this.collectSoundCooldown) {
-      const audio = document.getElementById('water-collect-sound');
-      if (audio) {
-        audio.currentTime = 0; // Reset to start
-        audio.play().catch(() => {
-          // Silent fail if audio can't play (common on muted browsers)
-        });
-        this.lastCollectSoundTime = now;
-      }
+      this.playSoundById('water-collect-sound');
+      this.lastCollectSoundTime = now;
+    }
+  },
+
+  playMissSound() {
+    this.playSoundById('miss-sound');
+  },
+
+  playButtonSound() {
+    const now = Date.now();
+    if (now - this.lastButtonSoundTime > this.buttonSoundCooldown) {
+      this.playSoundById('button-click-sound');
+      this.lastButtonSoundTime = now;
     }
   },
 
   playWinSound() {
     if (!this.winSoundPlayed) {
-      const audio = document.getElementById('win-sound');
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(() => {
-          // Silent fail if audio can't play
-        });
-        this.winSoundPlayed = true;
-      }
+      this.playSoundById('win-sound');
+      this.winSoundPlayed = true;
     }
   },
 
@@ -212,7 +224,11 @@ function scheduleInactivityPenalty() {
   inactivityTimeout = setTimeout(() => {
     if (!gameActive) return;
 
+    const previousCans = currentCans;
     currentCans = Math.max(0, currentCans - currentInactivityPenalty);
+    if (currentCans < previousCans) {
+      soundManager.playMissSound();
+    }
     updateScoreDisplay();
     updateProgressDisplay();
     scheduleInactivityPenalty();
@@ -367,6 +383,14 @@ document.getElementById('stage-3-choice-a').addEventListener('click', showWinScr
 document.getElementById('stage-3-choice-b').addEventListener('click', showWinScreen);
 document.getElementById('play-again').addEventListener('click', resetGame);
 document.getElementById('water-drop-button').addEventListener('click', collectWater);
+
+// Play click sound for UI buttons (except the main collect button, which uses collect sound).
+document.querySelectorAll('button').forEach((button) => {
+  if (button.id === 'water-drop-button') return;
+  button.addEventListener('click', () => {
+    soundManager.playButtonSound();
+  });
+});
 
 // Set up difficulty button handlers
 document.getElementById('difficulty-easy').addEventListener('click', () => selectDifficulty('easy'));
