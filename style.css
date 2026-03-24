@@ -615,13 +615,13 @@ p,
   gap: 10px;
   margin: 0 auto;
   width: 100%;
-  max-width: 420px;
+  max-width: 500px;
 }
 
 .grid-cell {
   background: linear-gradient(180deg, #f3fbff 0%, #dff2ff 100%);
   border-radius: 12px;
-  aspect-ratio: 1;
+  aspect-ratio: 1.25 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
