@@ -1,6 +1,5 @@
 // Game configuration and state variables
 const GOAL_CANS = 100;        // Total items needed to collect
-const GAME_DURATION = 30;     // Game length in seconds
 const STAGE_ONE_TARGET = 100;
 const INACTIVITY_LIMIT = 3000;
 const INACTIVITY_PENALTY = 5;
@@ -38,7 +37,7 @@ let currentGameDuration = DIFFICULTY_SETTINGS['normal'].duration;
 let currentRequiredDrops = DIFFICULTY_SETTINGS['normal'].drops;
 let currentInactivityPenalty = DIFFICULTY_SETTINGS['normal'].inactivityPenalty;
 let currentCans = 0;         // Current number of items collected
-let timeLeft = GAME_DURATION; // Remaining time in the current game
+let timeLeft = currentGameDuration; // Remaining time in the current game
 let gameActive = false;      // Tracks if game is currently running
 let spawnInterval;          // Holds the interval for spawning items
 let timerInterval;          // Holds the interval for the countdown timer
@@ -322,10 +321,32 @@ function spawnWaterCan() {
 // Initializes and starts a new game
 function startGame() {
   if (gameActive) return; // Prevent starting a new game if one is already active
+
+  const activeDifficultyButton = document.querySelector('.difficulty-button.active');
+  if (activeDifficultyButton) {
+    const selectedDifficulty = activeDifficultyButton.id.replace('difficulty-', '');
+    if (DIFFICULTY_SETTINGS[selectedDifficulty]) {
+      difficulty = selectedDifficulty;
+    }
+  }
+
+  currentGameDuration = DIFFICULTY_SETTINGS[difficulty].duration;
+  currentRequiredDrops = DIFFICULTY_SETTINGS[difficulty].drops;
+  currentInactivityPenalty = DIFFICULTY_SETTINGS[difficulty].inactivityPenalty;
+
+  if (difficulty === 'easy') {
+    timeLeft = 50;
+  } else if (difficulty === 'normal') {
+    timeLeft = 40;
+  } else {
+    timeLeft = 30;
+  }
+
+  document.getElementById('timer').textContent = timeLeft;
+
   switchStage('main-clicker-screen');
   gameActive = true;
   currentCans = 0;
-  timeLeft = currentGameDuration;
   updateGameMessage('', null);
   updateScoreDisplay();
   updateProgressDisplay();
