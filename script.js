@@ -28,14 +28,15 @@ const MILESTONES = [
 
 // Difficulty settings
 const DIFFICULTY_SETTINGS = {
-  easy: { duration: 40, inactivityPenalty: 2 },
-  normal: { duration: 30, inactivityPenalty: 5 },
-  hard: { duration: 20, inactivityPenalty: 8 }
+  easy: { duration: 50, drops: 60, inactivityPenalty: 2 },
+  normal: { duration: 40, drops: 75, inactivityPenalty: 5 },
+  hard: { duration: 30, drops: 100, inactivityPenalty: 8 }
 };
 
 let difficulty = 'normal'; // Current selected difficulty
-let currentGameDuration = GAME_DURATION;
-let currentInactivityPenalty = INACTIVITY_PENALTY;
+let currentGameDuration = DIFFICULTY_SETTINGS['normal'].duration;
+let currentRequiredDrops = DIFFICULTY_SETTINGS['normal'].drops;
+let currentInactivityPenalty = DIFFICULTY_SETTINGS['normal'].inactivityPenalty;
 let currentCans = 0;         // Current number of items collected
 let timeLeft = GAME_DURATION; // Remaining time in the current game
 let gameActive = false;      // Tracks if game is currently running
@@ -103,6 +104,7 @@ function selectDifficulty(selectedDifficulty) {
   difficulty = selectedDifficulty;
   const settings = DIFFICULTY_SETTINGS[difficulty];
   currentGameDuration = settings.duration;
+  currentRequiredDrops = settings.drops;
   currentInactivityPenalty = settings.inactivityPenalty;
 
   // Update UI to show selected difficulty
@@ -236,7 +238,7 @@ function scheduleInactivityPenalty() {
 }
 
 function checkWaterAmount() {
-  if (currentCans < STAGE_ONE_TARGET) return;
+  if (currentCans < currentRequiredDrops) return;
 
   gameActive = false;
   clearInterval(spawnInterval);
@@ -262,8 +264,9 @@ function showWinScreen() {
 function resetGame() {
   gameActive = false;
   currentCans = 0;
-  timeLeft = GAME_DURATION;
+  timeLeft = currentGameDuration;
   currentGameDuration = DIFFICULTY_SETTINGS[difficulty].duration;
+  currentRequiredDrops = DIFFICULTY_SETTINGS[difficulty].drops;
   currentInactivityPenalty = DIFFICULTY_SETTINGS[difficulty].inactivityPenalty;
   milestonesDisplayed = [];
   clearInterval(spawnInterval);
@@ -339,7 +342,7 @@ function startGame() {
 }
 
 function endGame() {
-  if (currentCans >= STAGE_ONE_TARGET) {
+  if (currentCans >= currentRequiredDrops) {
     checkWaterAmount();
     return;
   }

@@ -41,8 +41,9 @@ body {
   padding: 30px;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background:
     radial-gradient(circle at top, rgba(255, 201, 7, 0.22), transparent 32%),
     linear-gradient(160deg, #fffdf3 0%, #e9f6ff 45%, #f6fff8 100%);
@@ -346,6 +347,8 @@ h1 img {
   cursor: pointer;
   margin: 0 auto 20px;
   transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  position: relative;
+  z-index: 10;
 }
 
 .secondary-button:hover {
@@ -403,11 +406,13 @@ h1 img {
 
 .progress-track {
   width: 100%;
-  height: 20px;
+  height: 12px;
   background: linear-gradient(180deg, #fff7d7 0%, #ffefb8 100%);
-  border-radius: 999px;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
 }
 
 .progress-fill {
@@ -562,6 +567,8 @@ h1 img {
 }
 
 .game-footer {
+  width: 100%;
+  display: block;
   margin-top: 40px;
   padding: 24px 30px;
   text-align: center;
