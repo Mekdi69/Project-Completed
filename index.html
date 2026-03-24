@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Water Quest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -12,6 +13,14 @@
       <img class="brand-logo" src="img/cw_logo_horizontal.png" alt="charity: water logo" />
       <h1>Water Quest</h1>
       <p class="game-instructions">Collect 100 water drops to unlock Stage 1!</p>
+      <div class="difficulty-section">
+        <p class="difficulty-label">Select Difficulty:</p>
+        <div class="difficulty-buttons">
+          <button id="difficulty-easy" class="difficulty-button">Easy</button>
+          <button id="difficulty-normal" class="difficulty-button active">Normal</button>
+          <button id="difficulty-hard" class="difficulty-button">Hard</button>
+        </div>
+      </div>
       <div class="water-status">
         <button id="water-drop-button" class="water-drop-button" aria-label="Collect water">
           <img class="water-drop-image" src="img/water-can-transparent.png" alt="Water drop" />
@@ -31,6 +40,7 @@
           <div id="progress-fill" class="progress-fill"></div>
         </div>
       </div>
+      <div id="milestone-popup" class="milestone-popup" aria-live="polite" aria-hidden="true"></div>
       <button id="reset-game" class="secondary-button">Reset Game</button>
       <p id="game-message" class="game-message" aria-live="polite"></p>
       <div id="achievements" class="achievement"></div>
@@ -80,6 +90,17 @@
       <button id="play-again" class="secondary-button">Play Again</button>
     </section>
   </div>
+  <footer class="game-footer">
+    <div class="footer-content">
+      <a href="https://www.charitywater.org" target="_blank" rel="noopener noreferrer">About charity: water</a>
+      <span class="footer-separator">•</span>
+      <a href="https://www.charitywater.org/donate" target="_blank" rel="noopener noreferrer">Donate</a>
+      <span class="footer-separator">•</span>
+      <a href="https://www.charitywater.org/our-work" target="_blank" rel="noopener noreferrer">Learn More</a>
+    </div>
+  </footer>
+  <audio id="water-collect-sound" src="audio/water-collect.mp3" preload="auto"></audio>
+  <audio id="win-sound" src="audio/win-sound.mp3" preload="auto"></audio>
   <script src="script.js"></script>
 </body>
 </html>

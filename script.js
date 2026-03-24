@@ -16,16 +16,118 @@ const LOSS_MESSAGES = [
   'Not this round. Give it another shot.',
   'Keep going! You can beat this next time.'
 ];
+
+// Milestone messages
+const MILESTONES = [
+  { amount: 10, message: 'Great start!' },
+  { amount: 25, message: "You're making progress!" },
+  { amount: 50, message: 'Halfway there!' },
+  { amount: 75, message: 'Almost done!' },
+  { amount: 100, message: 'Stage complete!' }
+];
+
+// Difficulty settings
+const DIFFICULTY_SETTINGS = {
+  easy: { duration: 40, inactivityPenalty: 2 },
+  normal: { duration: 30, inactivityPenalty: 5 },
+  hard: { duration: 20, inactivityPenalty: 8 }
+};
+
+let difficulty = 'normal'; // Current selected difficulty
+let currentGameDuration = GAME_DURATION;
+let currentInactivityPenalty = INACTIVITY_PENALTY;
 let currentCans = 0;         // Current number of items collected
 let timeLeft = GAME_DURATION; // Remaining time in the current game
 let gameActive = false;      // Tracks if game is currently running
 let spawnInterval;          // Holds the interval for spawning items
 let timerInterval;          // Holds the interval for the countdown timer
 let inactivityTimeout;      // Tracks the idle penalty timer
+let milestonesDisplayed = []; // Tracks which milestones have been shown
+
+// Sound management system
+const soundManager = {
+  lastCollectSoundTime: 0,
+  collectSoundCooldown: 100, // Minimum milliseconds between collect sounds
+  winSoundPlayed: false,
+
+  playCollectSound() {
+    const now = Date.now();
+    if (now - this.lastCollectSoundTime > this.collectSoundCooldown) {
+      const audio = document.getElementById('water-collect-sound');
+      if (audio) {
+        audio.currentTime = 0; // Reset to start
+        audio.play().catch(() => {
+          // Silent fail if audio can't play (common on muted browsers)
+        });
+        this.lastCollectSoundTime = now;
+      }
+    }
+  },
+
+  playWinSound() {
+    if (!this.winSoundPlayed) {
+      const audio = document.getElementById('win-sound');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {
+          // Silent fail if audio can't play
+        });
+        this.winSoundPlayed = true;
+      }
+    }
+  },
+
+  resetWinSound() {
+    this.winSoundPlayed = false;
+  }
+};
 
 function getRandomMessage(messages) {
   const randomIndex = Math.floor(Math.random() * messages.length);
   return messages[randomIndex];
+}
+
+function selectDifficulty(selectedDifficulty) {
+  difficulty = selectedDifficulty;
+  const settings = DIFFICULTY_SETTINGS[difficulty];
+  currentGameDuration = settings.duration;
+  currentInactivityPenalty = settings.inactivityPenalty;
+
+  // Update UI to show selected difficulty
+  document.querySelectorAll('.difficulty-button').forEach((button) => {
+    button.classList.remove('active');
+  });
+  document.getElementById(`difficulty-${difficulty}`).classList.add('active');
+}
+
+function displayMilestone(message) {
+  const popup = document.getElementById('milestone-popup');
+  if (!popup) return;
+
+  // Remove 'show' class if present to reset animation
+  popup.classList.remove('show');
+
+  // Trigger reflow to restart animation
+  popup.offsetHeight;
+
+  popup.textContent = message;
+  popup.setAttribute('aria-hidden', 'false');
+  popup.classList.add('show');
+
+  // Remove the show class after animation completes (2.3 seconds = 0.3s show + 2s fade)
+  setTimeout(() => {
+    popup.classList.remove('show');
+    popup.setAttribute('aria-hidden', 'true');
+  }, 2300);
+}
+
+function checkMilestones() {
+  MILESTONES.forEach((milestone) => {
+    if (currentCans === milestone.amount && !milestonesDisplayed.includes(milestone.amount)) {
+      displayMilestone(milestone.message);
+      milestonesDisplayed.push(milestone.amount);
+    }
+  });
 }
 
 function updateScoreDisplay() {
@@ -74,6 +176,14 @@ function clearInactivityPenalty() {
   clearTimeout(inactivityTimeout);
 }
 
+function applyBounceAnimation(element) {
+  element.classList.add('water-drop-bounce');
+  element.addEventListener('animationend', function removeAnimation() {
+    element.classList.remove('water-drop-bounce');
+    element.removeEventListener('animationend', removeAnimation);
+  }, { once: true });
+}
+
 function clearConfetti() {
   document.getElementById('confetti-layer').innerHTML = '';
 }
@@ -102,7 +212,7 @@ function scheduleInactivityPenalty() {
   inactivityTimeout = setTimeout(() => {
     if (!gameActive) return;
 
-    currentCans = Math.max(0, currentCans - INACTIVITY_PENALTY);
+    currentCans = Math.max(0, currentCans - currentInactivityPenalty);
     updateScoreDisplay();
     updateProgressDisplay();
     scheduleInactivityPenalty();
@@ -130,12 +240,16 @@ function showWinScreen() {
   document.getElementById('win-screen-message').textContent = FINAL_STAGE_MESSAGE;
   switchStage('win-screen');
   launchConfetti();
+  soundManager.playWinSound();
 }
 
 function resetGame() {
   gameActive = false;
   currentCans = 0;
   timeLeft = GAME_DURATION;
+  currentGameDuration = DIFFICULTY_SETTINGS[difficulty].duration;
+  currentInactivityPenalty = DIFFICULTY_SETTINGS[difficulty].inactivityPenalty;
+  milestonesDisplayed = [];
   clearInterval(spawnInterval);
   clearInterval(timerInterval);
   clearInactivityPenalty();
@@ -147,6 +261,7 @@ function resetGame() {
   document.getElementById('stage-1-water-total').textContent = '0';
   document.getElementById('win-screen-message').textContent = FINAL_STAGE_MESSAGE;
   clearConfetti();
+  soundManager.resetWinSound();
   switchStage('main-clicker-screen');
 }
 
@@ -189,7 +304,7 @@ function startGame() {
   switchStage('main-clicker-screen');
   gameActive = true;
   currentCans = 0;
-  timeLeft = GAME_DURATION;
+  timeLeft = currentGameDuration;
   updateGameMessage('', null);
   updateScoreDisplay();
   updateProgressDisplay();
@@ -232,8 +347,11 @@ function collectWater() {
   if (currentCans >= GOAL_CANS) return;
 
   currentCans += 1;
+  soundManager.playCollectSound();
+  applyBounceAnimation(document.getElementById('water-drop-button'));
   updateScoreDisplay();
   updateProgressDisplay();
+  checkMilestones();
   scheduleInactivityPenalty();
   checkWaterAmount();
 }
@@ -250,14 +368,21 @@ document.getElementById('stage-3-choice-b').addEventListener('click', showWinScr
 document.getElementById('play-again').addEventListener('click', resetGame);
 document.getElementById('water-drop-button').addEventListener('click', collectWater);
 
+// Set up difficulty button handlers
+document.getElementById('difficulty-easy').addEventListener('click', () => selectDifficulty('easy'));
+document.getElementById('difficulty-normal').addEventListener('click', () => selectDifficulty('normal'));
+document.getElementById('difficulty-hard').addEventListener('click', () => selectDifficulty('hard'));
+
 // Increment score when a spawned water can is clicked
 document.querySelector('.game-grid').addEventListener('click', (event) => {
   if (!gameActive) return;
   if (!event.target.classList.contains('water-can')) return;
 
-  collectWater();
-
-  // Remove clicked can so it cannot be counted multiple times
   const wrapper = event.target.closest('.water-can-wrapper');
-  if (wrapper) wrapper.remove();
+  if (wrapper) {
+    applyBounceAnimation(event.target);
+    wrapper.remove();
+  }
+
+  collectWater();
 });

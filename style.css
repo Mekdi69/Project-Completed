@@ -36,7 +36,7 @@ Fonts:
 }
 
 body {
-  font-family: Avenir, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 30px;
   min-height: 100vh;
@@ -133,6 +133,60 @@ h1 img {
   max-width: 32rem;
 }
 
+.difficulty-section {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.difficulty-label {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--cw-ink);
+  text-align: center;
+}
+
+.difficulty-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.difficulty-button {
+  background-color: transparent;
+  color: var(--cw-blue-deep);
+  border: 2px solid rgba(46, 157, 247, 0.28);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.difficulty-button:hover {
+  background-color: rgba(46, 157, 247, 0.08);
+  border-color: rgba(46, 157, 247, 0.48);
+  transform: translateY(-1px);
+}
+
+.difficulty-button:focus-visible {
+  outline: 3px solid var(--cw-yellow);
+  outline-offset: 4px;
+}
+
+.difficulty-button.active {
+  background-color: var(--cw-blue);
+  color: white;
+  border-color: var(--cw-blue);
+}
+
+.difficulty-button.active:hover {
+  background-color: var(--cw-blue-deep);
+  border-color: var(--cw-blue-deep);
+}
+
 .water-status {
   display: flex;
   flex-direction: column;
@@ -155,6 +209,10 @@ h1 img {
   outline: 3px solid var(--cw-blue);
   outline-offset: 4px;
   border-radius: 50%;
+}
+
+.water-drop-button.water-drop-bounce .water-drop-image {
+  animation: containerBounce 0.2s ease;
 }
 
 .water-drop-image {
@@ -232,6 +290,49 @@ h1 img {
 .win-screen-message {
   max-width: 30rem;
   margin-bottom: 28px;
+}
+
+.milestone-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--cw-yellow);
+  color: var(--cw-ink);
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(255, 201, 7, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+  animation: milestoneShow 0.3s ease-out forwards;
+}
+
+.milestone-popup.show {
+  animation: milestoneShow 0.3s ease-out forwards, milestoneFade 2s ease-in 0.3s forwards;
+}
+
+@keyframes milestoneShow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes milestoneFade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .secondary-button {
@@ -409,6 +510,18 @@ h1 img {
   }
 }
 
+@keyframes containerBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes confettiFall {
   0% {
     transform: translate3d(0, -10%, 0) rotate(0deg);
@@ -446,6 +559,44 @@ h1 img {
 #start-game:focus-visible {
   outline: 3px solid var(--cw-yellow);
   outline-offset: 4px;
+}
+
+.game-footer {
+  margin-top: 40px;
+  padding: 24px 30px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.footer-content {
+  font-size: 13px;
+  color: var(--cw-ink);
+  opacity: 0.7;
+  letter-spacing: 0.3px;
+}
+
+.footer-content a {
+  color: var(--cw-blue);
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  font-weight: 500;
+}
+
+.footer-content a:hover {
+  color: var(--cw-blue-deep);
+  opacity: 1;
+}
+
+.footer-content a:focus-visible {
+  outline: 2px solid var(--cw-yellow);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.footer-separator {
+  margin: 0 8px;
+  color: var(--cw-ink);
+  opacity: 0.3;
 }
 
 @media (max-width: 900px) {
@@ -537,5 +688,29 @@ h1 img {
 
   .win-screen {
     min-height: 360px;
+  }
+
+  .difficulty-buttons {
+    gap: 8px;
+  }
+
+  .difficulty-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-footer {
+    margin-top: 30px;
+    padding: 16px 14px;
+  }
+
+  .footer-content {
+    font-size: 12px;
+  }
+
+  .footer-separator {
+    margin: 0 6px;
   }
 }
