@@ -23,10 +23,10 @@ Fonts:
 }
 
 :root {
-  --cw-yellow: #FFC300;
+  --cw-yellow: #F7C948;
   --cw-yellow-soft: #ffe082;
-  --cw-blue: #2E9DF7;
-  --cw-blue-deep: #1f7fd0;
+  --cw-blue: #0A4D8C;
+  --cw-blue-deep: #0A4D8C;
   --cw-light-blue: #8BD1CB;
   --cw-green: #159A48;
   --cw-red: #F5402C;
@@ -44,12 +44,21 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background:
-    radial-gradient(circle at top, rgba(255, 201, 7, 0.22), transparent 32%),
-    linear-gradient(160deg, #fffdf3 0%, #e9f6ff 45%, #f6fff8 100%);
+  background: #FAFAF7;
   color: var(--cw-ink);
   position: relative;
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url('img/water-can-transparent.png') no-repeat center 80%;
+  background-size: 180px;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Decorative background elements */
@@ -258,7 +267,7 @@ h1 {
   font-size: 32px;
   font-weight: bold;
   margin: 0 0 8px;
-  color: var(--cw-green);
+  color: #0A4D8C;
   letter-spacing: 0.02em;
 }
 
@@ -298,9 +307,9 @@ h1 img {
 }
 
 .difficulty-button {
-  background-color: transparent;
-  color: var(--cw-blue-deep);
-  border: 2px solid rgba(46, 157, 247, 0.28);
+  background-color: #F7C948;
+  color: #0A4D8C;
+  border: 2px solid #F7C948;
   padding: 10px 20px;
   font-size: 14px;
   font-weight: bold;
@@ -310,8 +319,8 @@ h1 img {
 }
 
 .difficulty-button:hover {
-  background-color: rgba(46, 157, 247, 0.08);
-  border-color: rgba(46, 157, 247, 0.48);
+  background-color: #f1bf3c;
+  border-color: #f1bf3c;
   transform: translateY(-1px);
 }
 
@@ -321,14 +330,14 @@ h1 img {
 }
 
 .difficulty-button.active {
-  background-color: var(--cw-blue);
-  color: white;
-  border-color: var(--cw-blue);
+  background-color: #F7C948;
+  color: #0A4D8C;
+  border-color: #F7C948;
 }
 
 .difficulty-button.active:hover {
-  background-color: var(--cw-blue-deep);
-  border-color: var(--cw-blue-deep);
+  background-color: #f1bf3c;
+  border-color: #f1bf3c;
 }
 
 .water-status {
@@ -445,7 +454,7 @@ h1 img {
 
 .milestone-popup {
   position: relative;
-  background-color: var(--cw-yellow);
+  background-color: #F7C948;
   color: var(--cw-ink);
   padding: 10px;
   border-radius: 8px;
@@ -495,9 +504,9 @@ h1 img {
 }
 
 .secondary-button {
-  background-color: transparent;
-  color: var(--cw-blue-deep);
-  border: 2px solid rgba(46, 157, 247, 0.28);
+  background-color: #F7C948;
+  color: #0A4D8C;
+  border: 2px solid #F7C948;
   padding: 8px 18px;
   font-size: 14px;
   font-weight: bold;
@@ -510,8 +519,8 @@ h1 img {
 }
 
 .secondary-button:hover {
-  background-color: rgba(46, 157, 247, 0.08);
-  border-color: rgba(46, 157, 247, 0.48);
+  background-color: #f1bf3c;
+  border-color: #f1bf3c;
   transform: translateY(-1px);
 }
 
@@ -719,8 +728,8 @@ p,
 
 
 #start-game {
-  background-color: var(--cw-blue);
-  color: white;
+  background-color: #F7C948;
+  color: #0A4D8C;
   border: none;
   padding: 10px 20px;
   font-size: 15px;
@@ -733,7 +742,7 @@ p,
 }
 
 #start-game:hover {
-  background-color: var(--cw-blue-deep);
+  background-color: #f1bf3c;
   transform: translateY(-1px);
 }
 
