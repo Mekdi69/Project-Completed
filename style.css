@@ -340,6 +340,15 @@ h1 img {
   border-color: #f1bf3c;
 }
 
+.difficulty-btn.selected,
+.difficulty-button.selected {
+  background-color: #0A4D8C;
+  color: white;
+  border: 2px solid #F7C948;
+  transform: scale(1.05);
+  transition: 0.2s ease;
+}
+
 .water-status {
   display: flex;
   flex-direction: column;
@@ -382,8 +391,9 @@ h1 img {
 .water-drop,
 .water-can-wrapper,
 .water-can {
-  width: 40px;
-  height: 40px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
 }
 
 .water-drop-button:hover .water-drop-image {
@@ -532,11 +542,17 @@ h1 img {
 .stage-card {
   width: 100%;
   max-width: 300px;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 10px;
   background: linear-gradient(180deg, #fff7d7 0%, #f2f9ff 100%);
   border: 1px solid rgba(46, 157, 247, 0.18);
-  box-shadow: 0 10px 24px rgba(46, 157, 247, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.stage-card:hover {
+  transform: translateY(-3px);
 }
 
 .stage-card-label {

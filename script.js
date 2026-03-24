@@ -107,10 +107,13 @@ function selectDifficulty(selectedDifficulty) {
   currentInactivityPenalty = settings.inactivityPenalty;
 
   // Update UI to show selected difficulty
-  document.querySelectorAll('.difficulty-button').forEach((button) => {
+  document.querySelectorAll('.difficulty-button, .difficulty-btn').forEach((button) => {
     button.classList.remove('active');
+    button.classList.remove('selected');
   });
-  document.getElementById(`difficulty-${difficulty}`).classList.add('active');
+  const selectedButton = document.getElementById(`difficulty-${difficulty}`);
+  selectedButton.classList.add('active');
+  selectedButton.classList.add('selected');
 }
 
 function displayMilestone(message) {
